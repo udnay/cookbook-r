@@ -33,3 +33,5 @@ else
 end
 
 default['r']['install_dev'] = true
+
+default['r']['libraries'] = []

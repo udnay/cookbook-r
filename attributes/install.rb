@@ -6,4 +6,5 @@ when "package"
   default['r']['install_dir'] = "/usr/lib/R"
 when "source"
   default['r']['install_dir'] = node['kernel']['machine'] == 'x86_64' ? "/usr/local/lib64/R" : "/usr/local/lib/R"
+  default['r']['prefix_bin'] = "/usr/local/bin"
 end

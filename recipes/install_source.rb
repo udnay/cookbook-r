@@ -27,12 +27,35 @@ is_installed_command = "R --version | grep -q #{r_version}"
 
 package "gcc-gfortran"
 
-include_recipe "build-essential"
 include_recipe "ark"
 
+# install some extra packages to make this work right.
+case node['platform_family']
+  when "debian"
+    # this is broken for centos 6.5 because kernel-devel isn't available??
+    include_recipe "build-essential"
+  when "rhel"
+    # Add readline headers to make command line easier to use
+    package "readline-devel"
+end
+
 ark "R-#{r_version}" do
+  name "R"
+  version r_version
   url "#{node['r']['cran_mirror']}/src/base/R-#{major_version}/R-#{r_version}.tar.gz"
   autoconf_opts node['r']['config_opts'] if node['r']['config_opts']
-  action [:configure, :install_with_make]
+  prefix_bin node['r']['prefix_bin']  
+  
+  # do not call configure then install_with_make, just call install_with_make.  If you call
+  # both then it will download the file twice and fail.  The install_with_make configures with autoconf_opts.
+  action :install_with_make   
+  
+  # This is skipped if the url/path exists
   not_if is_installed_command
+end
+
+node['r']['libraries'].each do |library|
+  r_package library do
+    action :install
+  end
 end
