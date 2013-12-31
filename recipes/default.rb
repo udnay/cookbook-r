@@ -27,9 +27,12 @@ end
 
 include_recipe "r::install_#{node['r']['install_method']}"
 
-template "/etc/profile.d/r.sh" do
-  mode "0755"
-  #variables(:cran_mirror => node['r']['cran_mirror'])
+# Add r to all users path because /usr/local/bin may not be the default on all systems
+if node['r']['add_r_to_path']
+  template "/etc/profile.d/r.sh" do
+    mode "0755"
+    #variables(:cran_mirror => node['r']['cran_mirror'])
+  end
 end
 
 # Setting the default CRAN mirror makes
@@ -39,13 +42,11 @@ template "#{node['r']['install_dir']}/etc/Rprofile.site" do
   variables(:cran_mirror => node['r']['cran_mirror'])
 end
 
-
-
 node['r']['libraries'].each do |library|
   r_package library do
     Chef::Log.info "Installing #{library}"
     action :install
-  
+
     only_if { ::File.exists?("#{node['r']['install_dir']}/etc/Rprofile.site") }
   end
 end

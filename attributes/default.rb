@@ -35,3 +35,4 @@ end
 default['r']['install_dev'] = true
 
 default['r']['libraries'] = []
+default['r']['add_r_to_path'] = false
