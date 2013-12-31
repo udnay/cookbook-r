@@ -36,7 +36,7 @@ case node['platform_family']
     # this is broken for centos 6.5 because kernel-devel isn't available??
     include_recipe "build-essential"
   when "rhel"
-    # Add readline headers to make command line easier to use
+    # Add readline headers to make command line easier to use, and is needed for rinruby gems
     package "readline-devel"
 end
 

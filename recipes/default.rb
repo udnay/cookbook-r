@@ -27,15 +27,26 @@ end
 
 include_recipe "r::install_#{node['r']['install_method']}"
 
+template "/etc/profile.d/r.sh" do
+  mode "0755"
+  #variables(:cran_mirror => node['r']['cran_mirror'])
+end
+
 # Setting the default CRAN mirror makes
 # remote administration of R much easier.
 template "#{node['r']['install_dir']}/etc/Rprofile.site" do
   mode "0555"
-  variables( :cran_mirror => node['r']['cran_mirror'])
+  variables(:cran_mirror => node['r']['cran_mirror'])
 end
+
+
 
 node['r']['libraries'].each do |library|
   r_package library do
+    Chef::Log.info "Installing #{library}"
     action :install
+  
+    only_if { ::File.exists?("#{node['r']['install_dir']}/etc/Rprofile.site") }
   end
 end
+
