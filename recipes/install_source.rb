@@ -28,6 +28,7 @@ is_installed_command = "R --version | grep -q #{r_version}"
 package "gcc-gfortran"
 
 include_recipe "ark"
+include_recipe "java"
 
 # install some extra packages to make this work right.
 case node['platform_family']
