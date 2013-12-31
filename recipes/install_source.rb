@@ -54,8 +54,3 @@ ark "R-#{r_version}" do
   not_if is_installed_command
 end
 
-node['r']['libraries'].each do |library|
-  r_package library do
-    action :install
-  end
-end

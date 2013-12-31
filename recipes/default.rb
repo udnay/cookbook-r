@@ -33,3 +33,9 @@ template "#{node['r']['install_dir']}/etc/Rprofile.site" do
   mode "0555"
   variables( :cran_mirror => node['r']['cran_mirror'])
 end
+
+node['r']['libraries'].each do |library|
+  r_package library do
+    action :install
+  end
+end
