@@ -27,9 +27,11 @@ to nil to always get the latest version.
 * `node['r']['config_opts]`: Options to pass to R's configure
   script. Source install only.
 
+* `node['r']['libraries']`: Hash of libraries to add to R in the form of {:name => "ExamplePackage", :package_path => "/a/path/"}
+
+* `node['r']['add_r_to_path']`: Will add the installed location of R (the symlink) to all users paths using profile.d
 
 # Providers
-
 
 ## r_package
 
@@ -53,6 +55,14 @@ mirror must be set.  The default recipe sets this for you.
 Install a package:
 
     r_package "snow"
+    
+Install a local package from the local file (/a/path/to/a/directory/example_1.1.0.tar.gz):
+   
+    r_package "example"
+        version "1.1.0"
+        package_path "/a/path/to/a/directory"
+        action :install
+    end
 
 Remove a package:
 

@@ -43,11 +43,14 @@ template "#{node['r']['install_dir']}/etc/Rprofile.site" do
 end
 
 node['r']['libraries'].each do |library|
-  r_package library do
-    Chef::Log.info "Installing #{library}"
+  r_package library['name'] do
+    Chef::Log.info "Installing #{library['name']}"
+    package_path library['package_path'] if library['package_path']
+    version library['version'] if library['version']
     action :install
 
     only_if { ::File.exists?("#{node['r']['install_dir']}/etc/Rprofile.site") }
   end
 end
+
 

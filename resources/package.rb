@@ -23,6 +23,8 @@ actions :install, :remove, :upgrade
 default_action :install
 
 attribute :package, :kind_of => String, :name_attribute => true
+attribute :package_path, :kind_of => String, :default => nil
+attribute :version, :kind_of => String, :default => nil
 
 attr_accessor :exists
 

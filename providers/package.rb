@@ -29,14 +29,14 @@ action :install do
     Chef::Log.info "#{ @new_resource.name } already exists - nothing to do."
   else
     converge_by("Create #{ @new_resource.name }") do
-      install_package
+      @new_resource.package_path.nil? ? install_package : install_local_package
     end
   end
 end
 
 action :upgrade do
   converge_by("Create #{ @new_resource.name }") do
-    install_package
+    @new_resource.package_path.nil? ? install_package : install_local_package
   end
 end
 
@@ -62,6 +62,18 @@ end
 def install_package
   require "rinruby"
   R.eval "install.packages('#{new_resource.package}')", false
+end
+
+def install_local_package
+  Chef::Log.info "#{ @new_resource.name } installing package from local file"
+  full_package_path = "#{@new_resource.package_path}/#{[@new_resource.package, @new_resource.version].join("_")}.tar.gz"
+  require "rinruby"
+  if ::File.exists?(full_package_path)
+    R.eval "install.packages('#{full_package_path}', repos = NULL, type='source')", false
+  else
+    Chef::Log.error "#{@new_resource.name} could not file package file"
+    raise "#{@new_resource.name} could not find local package file in #{full_package_path}"
+  end
 end
 
 def remove_package
