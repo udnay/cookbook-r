@@ -8,8 +8,8 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = "http://dl.dropbox.com/u/1537815/precise64.box"
   #config.vm.box = "centos65-x86_64"
   #config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.1/centos65-x86_64-20131205.box"
-  
-  config.vm.network :private_network, ip: "33.33.33.32"
+
+  config.vm.network :private_network, :ip => "33.33.33.32"
 
   config.berkshelf.enabled = true
   config.omnibus.chef_version = :latest
@@ -23,25 +23,35 @@ Vagrant.configure("2") do |config|
     #vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
     #vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
   end
-  
+
   config.vm.provision :chef_solo do |chef|
     chef.log_level = :debug
     chef.json = {
         :r => {
             :install_repo => false,
             :install_method => "source",
-            :prefix_bin => "/usr/local/sbin",
+            :prefix_bin => "/usr/local/bin",
             #:make_opts => ["-w"]
             :config_opts => ["--with-x=no", "--enable-R-shlib"], #--with-readline=no 
-            :libraries => ["snow", "Rserve"]
+            :libraries => [
+                {
+                    :name => "snow"
+                },
+                {
+                    :name => "Rserve"
+                },
+                {
+                    :name => "rJava"
+                }
+            ],
+            :rserve_start_on_boot => true
         }
     }
 
     #chef.cookbooks_path = '../../cookbooks'
     chef.roles_path = '../../roles'
-    chef.add_role("r-project")
-    #chef.add_recipe("java")
-    #chef.add_recipe("r::default")
-    #chef.add_recipe("r::rserve")
+    chef.add_recipe("java")
+    chef.add_recipe("r::default")
+    chef.add_recipe("r::rserve")
   end
 end

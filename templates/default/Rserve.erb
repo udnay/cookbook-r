@@ -17,7 +17,7 @@ DESC="Run Rserve"
 NAME=Rserve
 DIRHOME=/usr/lib/R/bin
 DAEMON=$DIRHOME/$NAME
-RBIN=/usr/bin/R
+RBIN=<%= node['r']['prefix_bin'] %>/R
 LOGFILE=<%= node['r']['rserve_log_path'] %>
 CONFIGFILE=/etc/Rserv.conf
 RUN_AS=<%= node['r']['rserve_user'] %>
