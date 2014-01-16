@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
             :install_method => "source",
             :prefix_bin => "/usr/local/bin",
             #:make_opts => ["-w"]
-            :config_opts => ["--with-x=no", "--enable-R-shlib"], #--with-readline=no 
+            :config_opts => ["--enable-R-shlib"], #--with-readline=no 
             :libraries => [
                 {
                     :name => "snow"
