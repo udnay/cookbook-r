@@ -21,18 +21,20 @@
 
 default['r']['cran_mirror'] = "http://cran.fhcrc.org/"
 
-case node['platform_family']
-when 'debian'
-  default['r']['install_method'] = 'package'
-  default['r']['install_repo']   = true
-else
-  default['r']['version']        = '3.0.2'
-  default['r']['checksum']       = '956e05ad60447955049285420b5a48e0526aa4db676fd9eadb4bcfb7ccdc024b'
-  default['r']['install_method'] = 'source'
-  default['r']['config_opts']    = [ "--with-x=no" ]
-end
+default['r']['install_method'] = 'package'
+default['r']['install_repo']   = true
+
+# if install via source then these are needed
+default['r']['version']        = '3.0.2'
+default['r']['checksum']       = '956e05ad60447955049285420b5a48e0526aa4db676fd9eadb4bcfb7ccdc024b'
+default['r']['config_opts']    = [ "--with-x=no" ]
 
 default['r']['install_dev'] = true
 
 default['r']['libraries'] = []
 default['r']['add_r_to_path'] = false
+
+# rserve settings
+default['r']['rserve_start_on_boot'] = false
+default['r']['rserve_user'] = "vagrant"
+default['r']['rserve_log_path'] = "/var/log/Rserve.log"

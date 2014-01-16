@@ -25,25 +25,27 @@ major_version = r_version.split(".").first
 # Command to check if we should be installing R or not.
 is_installed_command = "R --version | grep -q #{r_version}"
 
-package "gcc-gfortran"
-
-include_recipe "ark"
-include_recipe "java"
-
 # install some extra packages to make this work right.
 case node['platform_family']
   when "debian"
     # this is broken for centos 6.5 because kernel-devel isn't available??
+    include_recipe "apt"
     include_recipe "build-essential"
+    package "gfortran"
   when "rhel"
     # Add readline headers to make command line easier to use, and is needed for rinruby gems
+    package "gcc-gfortran"
     package "readline-devel"
 end
+
+include_recipe "ark"
+include_recipe "java"
 
 ark "R-#{r_version}" do
   name "R"
   version r_version
   url "#{node['r']['cran_mirror']}/src/base/R-#{major_version}/R-#{r_version}.tar.gz"
+  preautogen_command "sed -i 's/NCONNECTIONS 128/NCONNECTIONS 2560/' src/main/connections.c"
   autoconf_opts node['r']['config_opts'] if node['r']['config_opts']
   prefix_bin node['r']['prefix_bin']  
   
