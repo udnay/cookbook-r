@@ -32,6 +32,7 @@ case node['platform_family']
     include_recipe "apt"
     include_recipe "build-essential"
     package "gfortran"
+    execute "apt-get build-dep r-base -y" # this is required if you want full access to R (png, jpeg, tcltk, etc)
   when "rhel"
     # Add readline headers to make command line easier to use, and is needed for rinruby gems
     package "gcc-gfortran"
