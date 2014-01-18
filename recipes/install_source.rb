@@ -35,8 +35,14 @@ case node['platform_family']
     execute "apt-get build-dep r-base -y" # this is required if you want full access to R (png, jpeg, tcltk, etc)
   when "rhel"
     # Add readline headers to make command line easier to use, and is needed for rinruby gems
+    include_recipe "yum"
+    %w(libX11 libX11-devel libXt libXt-devel cairo libpng libpng-devel libjpeg-turbo libjpeg-turbo-devel zlib libtiff).each do |p|
+      package p
+    end
+    package "libX11-devel"
     package "gcc-gfortran"
     package "readline-devel"
+    package "lsb"
 end
 
 include_recipe "ark"
