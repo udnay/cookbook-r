@@ -36,13 +36,9 @@ case node['platform_family']
   when "rhel"
     # Add readline headers to make command line easier to use, and is needed for rinruby gems
     include_recipe "yum"
-    %w(libX11 libX11-devel libXt libXt-devel cairo libpng libpng-devel libjpeg-turbo libjpeg-turbo-devel zlib libtiff).each do |p|
+    %w(gcc-gfortran readline-devel libX11 libX11-devel libXt libXt-devel cairo libpng libpng-devel libjpeg-turbo libjpeg-turbo-devel zlib libtiff).each do |p|
       package p
     end
-    package "libX11-devel"
-    package "gcc-gfortran"
-    package "readline-devel"
-    package "lsb"
 end
 
 include_recipe "ark"
