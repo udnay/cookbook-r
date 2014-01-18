@@ -38,3 +38,6 @@ default['r']['add_r_to_path'] = false
 default['r']['rserve_start_on_boot'] = false
 default['r']['rserve_user'] = "vagrant"
 default['r']['rserve_log_path'] = "/var/log/Rserve.log"
+
+default['r']['add_ld_path'] = false
+default['r']['java_libjvm_path'] = "/usr/lib/jvm/java-6-openjdk-amd64/jre/lib/amd64/server/"

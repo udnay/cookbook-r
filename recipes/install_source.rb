@@ -64,3 +64,12 @@ ark "R-#{r_version}" do
   not_if is_installed_command
 end
 
+# make sure that java is dynamically loaded (if needed)
+if node['r']['add_ld_path']
+  template "/etc/profile.d/r-config.sh" do
+    source "r-config.sh.erb"
+    owner "root"
+    mode "0775"
+  end
+end
+
