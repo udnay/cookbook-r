@@ -35,8 +35,11 @@ action :install do
 end
 
 action :upgrade do
-  converge_by("Create #{ @new_resource.name }") do
-    @new_resource.package_path.nil? ? install_package : install_local_package
+  require "rinruby"
+  converge_by("Upgrade #{ @new_resource.name }") do
+    if !package_installed?(@new_resource.name)
+      @new_resource.package_path.nil? ? install_package : install_local_package
+    end  
   end
 end
 
