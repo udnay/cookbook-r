@@ -34,6 +34,11 @@ default['r']['install_dev'] = true
 default['r']['libraries'] = []
 default['r']['add_r_to_path'] = false
 
+# set rubylib and other paths for r environment
+default['r']['r_environment_site']['rubylib'] = nil
+default['r']['r_environment_site']['path'] = ["/usr/local/bin","/usr/local/sbin","usr/sbin","/usr/bin","/sbin","/bin"]
+default['r']['r_environment_site']['path_additions'] = []
+
 # rserve settings
 default['r']['rserve_start_on_boot'] = false
 default['r']['rserve_user'] = "vagrant"
@@ -41,3 +46,4 @@ default['r']['rserve_log_path'] = "/var/log/Rserve.log"
 
 default['r']['add_ld_path'] = false
 default['r']['java_libjvm_path'] = "/usr/lib/jvm/java-6-openjdk-amd64/jre/lib/amd64/server/"
+

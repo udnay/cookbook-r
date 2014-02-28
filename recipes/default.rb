@@ -31,7 +31,6 @@ include_recipe "r::install_#{node['r']['install_method']}"
 if node['r']['add_r_to_path']
   template "/etc/profile.d/r.sh" do
     mode "0755"
-    #variables(:cran_mirror => node['r']['cran_mirror'])
   end
 end
 
@@ -42,11 +41,21 @@ template "#{node['r']['install_dir']}/etc/Rprofile.site" do
   variables(:cran_mirror => node['r']['cran_mirror'])
 end
 
+# set environment variables
+template "#{node['r']['install_dir']}/etc/Renviron.site" do
+  mode "0644"
+end
+
 node['r']['libraries'].each do |library|
   r_package library['name'] do
     package_path library['package_path'] if library['package_path']
     version library['version'] if library['version']
-    action :upgrade
+    
+    if library['update_method'] == 'always_update'
+      action :upgrade
+    else
+      action :install
+    end
 
     only_if { ::File.exists?("#{node['r']['install_dir']}/etc/Rprofile.site") }
   end
