@@ -46,7 +46,7 @@ node['r']['libraries'].each do |library|
   r_package library['name'] do
     package_path library['package_path'] if library['package_path']
     version library['version'] if library['version']
-    action :install
+    action :upgrade
 
     only_if { ::File.exists?("#{node['r']['install_dir']}/etc/Rprofile.site") }
   end
