@@ -23,7 +23,7 @@ RBIN=<%= node['r']['prefix_bin'] %>/R
 LOGFILE=<%= node['r']['rserve_log_path'] %>
 CONFIGFILE=/etc/Rserv.conf
 RUN_AS=<%= node['r']['rserve_user'] %>
-RCMD="CMD Rserve --vanilla --no-save --gui-none"
+RCMD="CMD Rserve --no-save --gui-none"
 
 . /lib/lsb/init-functions
 
