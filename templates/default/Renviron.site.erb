@@ -1,0 +1,5 @@
+<% if node['r']['r_environment_site']['rubylib'] %>
+RUBYLIB=<%= node['r']['r_environment_site']['rubylib'] %>
+<% end %>
+
+PATH=<%= (node['r']['r_environment_site']['path_additions'] + node['r']['r_environment_site']['path']).join(":") %>

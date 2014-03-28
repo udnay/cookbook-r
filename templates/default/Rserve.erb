@@ -15,19 +15,22 @@
 
 DESC="Run Rserve"
 NAME=Rserve
-DIRHOME=/usr/lib/R/bin
-DAEMON=$DIRHOME/$NAME
+BINHOME=/usr/lib/R/bin
+RLIB=/usr/local/lib/R
+R_LIBHOME=$RLIB/library
+DAEMON=$R_LIBHOME/$NAME
 RBIN=<%= node['r']['prefix_bin'] %>/R
 LOGFILE=<%= node['r']['rserve_log_path'] %>
 CONFIGFILE=/etc/Rserv.conf
 RUN_AS=<%= node['r']['rserve_user'] %>
-RCMD="CMD Rserve --vanilla --no-save --gui-none"
+RCMD="CMD Rserve --no-save --gui-none"
 
 . /lib/lsb/init-functions
 
 stop_rserve()
 {
   # Stop the Rserve daemon
+  killall -9 $RLIB/bin/Rserve
   start-stop-daemon --stop --quiet --oknodo --exec $DAEMON
 }
 
