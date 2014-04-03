@@ -6,7 +6,7 @@ description      "Installs/Configures R"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.3.3"
 
-depends "yum", "~> 2.4.4"
+depends "yum"
 depends "java"
 depends "apt"
 depends "ark"
