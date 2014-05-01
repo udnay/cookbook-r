@@ -4,6 +4,8 @@
 # Recipe:: rserve
 #
 
+include_recipe "r::rserve_user"
+
 template "/etc/Rserv.conf" do
   source "Rserv.conf.erb"
   owner "root"

@@ -41,7 +41,9 @@ default['r']['r_environment_site']['path_additions'] = []
 
 # rserve settings
 default['r']['rserve_start_on_boot'] = false
-default['r']['rserve_user'] = "vagrant"
+default['r']['rserve_user'] = "rserve"
+default['r']['rserve_user_group'] = 'rserve'
+default['r']['rserve_user_password'] = 'password'
 default['r']['rserve_log_path'] = "/var/log/Rserve.log"
 
 default['r']['add_ld_path'] = false
