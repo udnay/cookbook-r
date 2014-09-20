@@ -4,8 +4,7 @@
 Vagrant.configure("2") do |config|
   config.vm.hostname = "test-server-1"
 
-  config.vm.box = "ubuntu-12.04-LTS-x86_64"
-  config.vm.box_url = "http://dl.dropbox.com/u/1537815/precise64.box"
+  config.vm.box = "ubuntu/trusty64"
   #config.vm.box = "centos65-x86_64"
   #config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.1/centos65-x86_64-20131205.box"
 
@@ -31,7 +30,6 @@ Vagrant.configure("2") do |config|
             :install_repo => false,
             :install_method => "source",
             :prefix_bin => "/usr/local/bin",
-            #:make_opts => ["-w"]
             :config_opts => ["--enable-R-shlib"], #--with-readline=no 
             :libraries => [
                 {
@@ -48,9 +46,6 @@ Vagrant.configure("2") do |config|
         }
     }
 
-    #chef.cookbooks_path = '../../cookbooks'
-    #chef.roles_path = '../../roles'
-    chef.add_recipe("java")
     chef.add_recipe("r::default")
     chef.add_recipe("r::rserve")
   end

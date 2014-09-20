@@ -45,5 +45,5 @@ default['r']['rserve_user'] = "vagrant"
 default['r']['rserve_log_path'] = "/var/log/Rserve.log"
 
 default['r']['add_ld_path'] = false
-default['r']['java_libjvm_path'] = "/usr/lib/jvm/java-6-openjdk-amd64/jre/lib/amd64/server/"
+default['r']['java_libjvm_path'] = "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/server/"
 
