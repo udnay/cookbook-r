@@ -109,6 +109,9 @@ end
 
 include_recipe "ark"
 
+# required unless "--with-readline=no" is used
+include_recipe 'readline'
+
 ark "R-#{r_version}" do
   name "R"
   version r_version

@@ -10,43 +10,18 @@ template "/etc/Rserv.conf" do
   mode "0755"
 end
 
-if node['r']['rserve_start_on_boot']
-  case node['platform_family']
-    when "debian"
+include_recipe 'supervisor'
 
-      template "/etc/init.d/Rserve" do
-        source "Rserve.erb"
-        owner "root"
-        mode "0755"
-      end
+node.set['supervisor']['inet_port'] = 9000
 
-      bash "configure Rserve daemon" do
-        code <<-EOH
-          cd /etc/init.d/
-          update-rc.d Rserve defaults
-        EOH
-      end
-
-      service "Rserve" do
-        action :restart
-      end
-    when "rhel"
-      template "/etc/init.d/Rserve" do
-        source "Rserve.erb"
-        owner "root"
-        mode "0755"
-      end
-
-      bash "configure Rserve daemon" do
-        code <<-EOH
-          cd /etc/init.d/
-          chkconfig --add Rserve 
-        EOH
-      end
-
-      service "Rserve" do
-        action :restart
-      end
-  end
+# supervisor tasks
+supervisor_service "Rserve" do
+  command "#{node['r']['prefix_bin']}/R CMD Rserve --no-save --gui-none"
+  directory node['r']['prefix_bin']
+  exitcodes [0,1,2]
+  stdout_logfile node['r']['rserve_log_path']
+  stderr_logfile node['r']['rserve_log_path']
+  action :enable
+  autostart true
+  user node['r']['rserve_user']
 end
-

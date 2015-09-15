@@ -37,7 +37,7 @@ end
 action :upgrade do
   require "rinruby"
   converge_by("Upgrade #{ @new_resource.name }") do
-    if !package_installed?(@new_resource.name)
+    if !r_package_installed?(@new_resource.name)
       @new_resource.package_path.nil? ? install_package : install_local_package
     end  
   end
@@ -57,14 +57,19 @@ def load_current_resource
   @current_resource = Chef::Resource::RPackage.new(@new_resource.name)
   @current_resource.name(@new_resource.name)
   @current_resource.package(@new_resource.package)
-  if package_installed?(@current_resource.package)
+  
+  if r_package_installed?(@current_resource.package)
     @current_resource.exists = true
   end
 end
 
+
+# To install Rserve without Daemon enabled, you must call the following command
+# install.packages('Rserve', configure.args='PKG_CPPFLAGS=-DNODAEMON')
+
 def install_package
   require "rinruby"
-  R.eval "install.packages('#{new_resource.package}')", false
+  R.eval "install.packages('#{@new_resource.package}', configure.args='#{@new_resource.configure_flags}')", false
 end
 
 def install_local_package
@@ -72,7 +77,7 @@ def install_local_package
   full_package_path = "#{@new_resource.package_path}/#{[@new_resource.package, @new_resource.version].join("_")}.tar.gz"
   require "rinruby"
   if ::File.exists?(full_package_path)
-    R.eval "install.packages('#{full_package_path}', repos = NULL, type='source')", false
+    R.eval "install.packages('#{full_package_path}', repos = NULL, type='source', configure.args='#{@new_resource.configure_flags}')", false
   else
     Chef::Log.error "#{@new_resource.name} could not file package file"
     raise "#{@new_resource.name} could not find local package file in #{full_package_path}"

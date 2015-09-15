@@ -27,6 +27,12 @@ end
 
 include_recipe "r::install_#{node['r']['install_method']}"
 
+directory node['r']['install_dir'] + '/etc' do
+  owner 'root'
+  group 'root'
+  recursive true
+end
+
 # Add r to all users path because /usr/local/bin may not be the default on all systems
 if node['r']['add_r_to_path']
   template "/etc/profile.d/r.sh" do
@@ -49,6 +55,7 @@ end
 node['r']['libraries'].each do |library|
   r_package library['name'] do
     package_path library['package_path'] if library['package_path']
+    configure_flags library['configure_flags'] if library['configure_flags']
     version library['version'] if library['version']
     
     if library['update_method'] == 'always_update'

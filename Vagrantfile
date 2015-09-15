@@ -5,8 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "test-server-1"
 
   config.vm.box = "ubuntu/trusty64"
-  #config.vm.box = "centos65-x86_64"
-  #config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.1/centos65-x86_64-20131205.box"
+  #config.vm.box = "puphpet/centos65-x64"
 
   config.vm.network :private_network, :ip => "33.33.33.32"
 
@@ -36,7 +35,8 @@ Vagrant.configure("2") do |config|
                     :name => "snow"
                 },
                 {
-                    :name => "Rserve"
+                    :name => "Rserve",
+                    :configure_flags => 'PKG_CPPFLAGS=-DNODAEMON'
                 },
                 {
                     :name => "rJava"

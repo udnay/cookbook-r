@@ -8,6 +8,7 @@ Berksfile.lock
 *.un~
 .DS_Store
 /cookbooks
+.idea
 
 # Bundler
 Gemfile.lock

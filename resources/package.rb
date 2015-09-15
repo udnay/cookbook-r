@@ -25,6 +25,7 @@ default_action :install
 attribute :package, :kind_of => String, :name_attribute => true
 attribute :package_path, :kind_of => String, :default => nil
 attribute :version, :kind_of => String, :default => nil
+attribute :configure_flags, :kind_of => String, :default => '' # string of arguments that are passed into install.packages
 
 attr_accessor :exists
 
