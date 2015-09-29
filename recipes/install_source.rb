@@ -117,6 +117,7 @@ ark "R-#{r_version}" do
   version r_version
   url "#{node['r']['cran_mirror']}/src/base/R-#{major_version}/R-#{r_version}.tar.gz"
   preautogen_command "sed -i 's/NCONNECTIONS 128/NCONNECTIONS 2560/' src/main/connections.c"
+  preautogen_command "sed -i 's/clusterApplyLB(cl, x = splitList(X, length(cl)),/clusterApplyLB(cl, x = X,/' src/library/parallel/R/clusterApply.R"
   autoconf_opts node['r']['config_opts'] if node['r']['config_opts']
   prefix_bin node['r']['prefix_bin']  
   
