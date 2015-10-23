@@ -16,7 +16,7 @@ def r_package_installed?(package, version)
         if version.nil?
           R.eval "other_version <- a['#{package}',2]"
         else
-          R.eval "other_version <- '#{vesrion}'"
+          R.eval "other_version <- '#{version}'"
         end
 
         R.eval "version_same <- (local_version == other_version)"
