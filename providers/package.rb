@@ -37,9 +37,9 @@ end
 action :upgrade do
   require "rinruby"
   converge_by("Upgrade #{ @new_resource.name }") do
-    if !r_package_installed?(@new_resource.name)
+    if !r_package_installed?(@new_resource.name, @new_resource.version)
       @new_resource.package_path.nil? ? install_package : install_local_package
-    end  
+    end
   end
 end
 
@@ -57,8 +57,8 @@ def load_current_resource
   @current_resource = Chef::Resource::RPackage.new(@new_resource.name)
   @current_resource.name(@new_resource.name)
   @current_resource.package(@new_resource.package)
-  
-  if r_package_installed?(@current_resource.package)
+
+  if r_package_installed?(@current_resource.package, @new_resource.version)
     @current_resource.exists = true
   end
 end
