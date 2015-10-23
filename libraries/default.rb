@@ -1,6 +1,6 @@
 require "timeout"
 
-def r_package_installed?(package)
+def r_package_installed?(package, version)
   Timeout::timeout(30) {
     require "rinruby"
     R.echo(enable=false)
@@ -13,8 +13,13 @@ def r_package_installed?(package)
       R.eval "package_in_list <- is.element('#{package}',a)"
       packageinlist = R.pull "as.character(package_in_list)"
       if packageinlist == "TRUE"
-        R.eval "remote_version <- a['#{package}',2]"
-        R.eval "version_same <- (local_version == remote_version)"
+        if version.nil?
+          R.eval "other_version <- a['#{package}',2]"
+        else
+          R.eval "other_version <- '#{vesrion}'"
+        end
+
+        R.eval "version_same <- (local_version == other_version)"
         versionsame = R.pull "as.character(version_same)"
         versionsame = versionsame == "TRUE"
       else
@@ -28,4 +33,3 @@ def r_package_installed?(package)
 rescue TimeoutError
   raise "Timed out trying to check if package is installed using rinruby (is readline enabled in R?)"
 end
-
