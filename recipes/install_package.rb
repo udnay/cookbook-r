@@ -22,11 +22,13 @@
 package 'r-base-core' do
   version node['r']['version'] if node['r']['version']
   action :install
+  ignore_failure true
 end
 
 package 'r-recommended' do
   version node['r']['version'] if node['r']['version']
   action :install
+  ignore_failure true
 end
 
 
