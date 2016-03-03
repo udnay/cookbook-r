@@ -19,6 +19,17 @@
 # limitations under the License.
 #
 
+package 'r-base-core' do
+  version node['r']['version'] if node['r']['version']
+  action :install
+end
+
+package 'r-recommended' do
+  version node['r']['version'] if node['r']['version']
+  action :install
+end
+
+
 package 'r-base' do
   version node['r']['version'] if node['r']['version']
   action :install
